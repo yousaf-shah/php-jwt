@@ -47,7 +47,7 @@ class Generator
      */
     private function header(): array
     {
-        $header = ['typ' => 'JWT', 'alg' => $this->signer->name()];
+        $header = ['typ' => 'JWT', 'alg' => $this->signer->name(),'nonce'=>(string) time()];
         if ($this->signer->kid() !== null) {
             $header['kid'] = $this->signer->kid();
         }

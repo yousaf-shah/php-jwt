@@ -18,10 +18,12 @@ abstract class AbstractEcdsaSigner implements Signer
     protected const ASN1_BIT_STRING = 0x03;
 
     protected EcdsaPrivateKey $privateKey;
+    protected string $kidname;
 
-    public function __construct(EcdsaPrivateKey $privateKey)
+    public function __construct(EcdsaPrivateKey $privateKey, string $kidname = "" )
     {
         $this->privateKey = $privateKey;
+        $this->kidname = $kidname;
     }
 
     public function sign(string $message): string
@@ -83,7 +85,11 @@ abstract class AbstractEcdsaSigner implements Signer
      */
     public function kid(): ?string
     {
-        return $this->privateKey->getId();
+        if(strlen($this->kidname)<1) {
+            return $this->privateKey->getId();
+        } else {
+            return $this->kidname;
+        }
     }
 
     public function getPrivateKey(): EcdsaPrivateKey

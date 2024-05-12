@@ -17,10 +17,10 @@ class EcdsaPrivateKey
     /**
      * @throws InvalidKeyException
      */
-    public function __construct(string $filePath, string $passphrase = '', ?string $id = null)
+    public function __construct(string $pemKey, string $passphrase = '', ?string $id = null)
     {
         try {
-            $this->resource = openssl_pkey_get_private(file_get_contents(realpath($filePath)), $passphrase);
+            $this->resource = openssl_pkey_get_private($pemKey, $passphrase);
         } catch (Throwable $e) {
             throw new InvalidKeyException('Failed to read the key.', 0, $e);
         }
